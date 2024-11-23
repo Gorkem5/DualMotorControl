@@ -1,32 +1,26 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.MotorSubsystem;
 
+// Motor kontrol modunu değiştiren komut
 public class SwitchModeCommand extends Command {
-  /** Creates a new SwitchModeCommand. */
-  public SwitchModeCommand() {
-    // Use addRequirements() here to declare subsystem dependencies.
-  }
+    private final MotorSubsystem motorSubsystem;
 
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {}
+    // Komutu başlatmak için gerekli bağımlılığı alır
+    public SwitchModeCommand(MotorSubsystem motorSubsystem) {
+        this.motorSubsystem = motorSubsystem;
+        addRequirements(motorSubsystem); // Bu komutun motor alt sistemine ihtiyaç duyduğunu belirtir
+    }
 
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {}
+    @Override
+    public void initialize() {
+        motorSubsystem.setSwitchMode(!motorSubsystem.isSwitchMode()); 
+    }
 
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {}
-
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
-  }
+    // Komutun tamamlandığını belirtir
+    @Override
+    public boolean isFinished() {
+        return true;
+    }
 }
