@@ -4,9 +4,11 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.JoystickControlCommand;
-import frc.robot.commands.ReverseModeCommand;
 import frc.robot.commands.SwitchModeCommand;
+import frc.robot.commands.ReverseModeCommand;
 import frc.robot.subsystems.MotorSubsystem;
+
+import java.util.function.Supplier;
 
 // Robot alt sistemlerini ve komutlarını yapılandıran sınıf
 public class RobotContainer {
@@ -16,7 +18,6 @@ public class RobotContainer {
     );
     private final Joystick joystick = new Joystick(Constants.OperatorConstants.JOYSTICK_PORT);
 
-    // RobotContainer sınıfının yapılandırıcısı
     public RobotContainer() {
         configureButtonBindings();
         motorSubsystem.setDefaultCommand(new JoystickControlCommand(
@@ -26,7 +27,6 @@ public class RobotContainer {
         ));
     }
 
-    // Buton atamalarını yapılandırır
     private void configureButtonBindings() {
         new JoystickButton(joystick, 1).onTrue(new SwitchModeCommand(motorSubsystem));
         new JoystickButton(joystick, 2).onTrue(new ReverseModeCommand(motorSubsystem));
