@@ -10,7 +10,7 @@ public class MotorSubsystem extends SubsystemBase {
     private boolean isSwitchMode = false;
     private boolean isReverseMode = false;
 
-    // Alt sistemi başlatmak için gerekli port numralarını alır
+    // Alt sistemi başlatmak için gerekli port numaralarını alır
     public MotorSubsystem(int motorPortA, int motorPortB) {
         motorA = new PWMVictorSPX(motorPortA);
         motorB = new PWMVictorSPX(motorPortB);
@@ -43,5 +43,9 @@ public class MotorSubsystem extends SubsystemBase {
     public boolean isReverseMode() {
         return isReverseMode;
     }
-}
 
+    // Motor hızlarını joystick kontrol komutuna göre günceller
+    @Override
+    public void periodic() {
+    }
+}
