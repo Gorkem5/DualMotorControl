@@ -1,32 +1,24 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.MotorSubsystem;
 
+// Motor dönüş yönünü değiştiren komut
 public class ReverseModeCommand extends Command {
-  /** Creates a new ReverseModeCommand. */
-  public ReverseModeCommand() {
-    // Use addRequirements() here to declare subsystem dependencies.
-  }
+    private final MotorSubsystem motorSubsystem;
 
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {}
+    public ReverseModeCommand(MotorSubsystem motorSubsystem) {
+        this.motorSubsystem = motorSubsystem;
+        addRequirements(motorSubsystem); 
+    }
 
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {}
+    @Override
+    public void initialize() {
+        motorSubsystem.setReverseMode(!motorSubsystem.isReverseMode()); 
+    }
 
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {}
-
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
-  }
+    @Override
+    public boolean isFinished() {
+        return true;
+    }
 }
