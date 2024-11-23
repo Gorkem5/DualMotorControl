@@ -7,18 +7,16 @@ import frc.robot.subsystems.MotorSubsystem;
 public class SwitchModeCommand extends Command {
     private final MotorSubsystem motorSubsystem;
 
-    // Komutu başlatmak için gerekli bağımlılığı alır
     public SwitchModeCommand(MotorSubsystem motorSubsystem) {
         this.motorSubsystem = motorSubsystem;
-        addRequirements(motorSubsystem); // Bu komutun motor alt sistemine ihtiyaç duyduğunu belirtir
+        // addRequirements(motorSubsystem) kaldırıldı
     }
 
     @Override
     public void initialize() {
-        motorSubsystem.setSwitchMode(!motorSubsystem.isSwitchMode()); 
+        motorSubsystem.setSwitchMode(!motorSubsystem.isSwitchMode());
     }
 
-    // Komutun tamamlandığını belirtir
     @Override
     public boolean isFinished() {
         return true;
