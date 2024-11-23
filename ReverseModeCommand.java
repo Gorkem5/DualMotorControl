@@ -9,12 +9,12 @@ public class ReverseModeCommand extends Command {
 
     public ReverseModeCommand(MotorSubsystem motorSubsystem) {
         this.motorSubsystem = motorSubsystem;
-        addRequirements(motorSubsystem); 
+        // addRequirements(motorSubsystem) kaldırıldı
     }
 
     @Override
     public void initialize() {
-        motorSubsystem.setReverseMode(!motorSubsystem.isReverseMode()); 
+        motorSubsystem.setReverseMode(!motorSubsystem.isReverseMode());
     }
 
     @Override
