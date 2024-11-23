@@ -5,40 +5,43 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 // Motorları kontrol eden alt sistem sınıfı
 public class MotorSubsystem extends SubsystemBase {
-    private final PWMVictorSPX motorA; // A motoru
-// A motoru
+    private final PWMVictorSPX motorA;
     private final PWMVictorSPX motorB;
-    // Switch mod durumu
-    // B motoru
     private boolean isSwitchMode = false;
-    // Reverse mod durumu
-    // Switch mod durumu
-    private boolean isReverseMode = false; // Reverse mod durumu
+    private boolean isReverseMode = false;
 
-    // Alt sistemi başlatmak için gerekli port numaralarını alır
+    // Alt sistemi başlatmak için gerekli port numralarını alır
     public MotorSubsystem(int motorPortA, int motorPortB) {
         motorA = new PWMVictorSPX(motorPortA);
         motorB = new PWMVictorSPX(motorPortB);
-        motorA.setSafetyEnabled(true); // Motor güvenliği etkin
-        motorB.setSafetyEnabled(true); // Motor güvenliği etkin
+        motorA.setSafetyEnabled(true);
+        motorB.setSafetyEnabled(true);
     }
 
-    public boolean isIsSwitchMode() {
+    // Motor hızlarını ayarlar
+    public void setMotorSpeeds(double speedA, double speedB) {
+        motorA.set(isReverseMode ? -speedA : speedA);
+        motorB.set(isReverseMode ? -speedB : speedB);
+    }
+
+    // Switch modunu ayarlar
+    public void setSwitchMode(boolean switchMode) {
+        isSwitchMode = switchMode;
+    }
+
+    // Reverse modunu ayarlar
+    public void setReverseMode(boolean reverseMode) {
+        isReverseMode = reverseMode;
+    }
+
+    // Switch modunun durumunu döner
+    public boolean isSwitchMode() {
         return isSwitchMode;
     }
 
-    public void setIsSwitchMode(boolean isSwitchMode) {
-        this.isSwitchMode = isSwitchMode;
-    }
-
-    public boolean isIsReverseMode() {
+    // Reverse modunun durumunu döner
+    public boolean isReverseMode() {
         return isReverseMode;
     }
-
-    public void setIsReverseMode(boolean isReverseMode) {
-        this.isReverseMode = isReverseMode;
-    }
-
-    // Motor hızlarını ayarlar...
-
 }
+
