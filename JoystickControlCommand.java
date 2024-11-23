@@ -1,32 +1,47 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot.commands;
 
+import java.util.function.Supplier;
+
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.MotorSubsystem;
 
+// Joystick ile motor kontrol komutu
 public class JoystickControlCommand extends Command {
-  /** Creates a new JoystickControlCommand. */
-  public JoystickControlCommand() {
-    // Use addRequirements() here to declare subsystem dependencies.
-  }
+    private final MotorSubsystem motorSubsystem;
+    private final Supplier<Double> xAxisSupplier; // X ekseni değerini sağlayan Supplier
+    private final Supplier<Double> yAxisSupplier; // Y ekseni değerini sağlayan Supplier
 
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {}
+    public JoystickControlCommand(MotorSubsystem motorSubsystem, Supplier<Double> xAxisSupplier, Supplier<Double> yAxisSupplier) {
+        this.motorSubsystem = motorSubsystem;
+        this.xAxisSupplier = xAxisSupplier;
+        this.yAxisSupplier = yAxisSupplier;
+        addRequirements(motorSubsystem); // Bu komutun motor alt sistemine ihtiyaç duyduğunu belirtir
+    }
 
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {}
+    // Komut çalıştırıldığında çağrılır
+    @Override
+    public void execute() {
+        // Joystick'in X ve Y eksen değerlerini alır
+        double xAxis = xAxisSupplier.get();
+        double yAxis = yAxisSupplier.get();
 
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {}
+        // Motor hızlarını joystick eksenlerine göre ayarlar
+        double motorASpeed = motorSubsystem.isSwitchMode() ? yAxis : xAxis;
+        double motorBSpeed = motorSubsystem.isSwitchMode() ? xAxis : yAxis;
 
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
-  }
+        // Motor hızlarını alt sistem üzerinden ayarlar
+        motorSubsystem.setMotorSpeeds(motorASpeed, motorBSpeed);
+    }
+
+    // Komut sona erdiğinde veya kesildiğinde çağrılır
+    @Override
+    public void end(boolean interrupted) {
+        motorSubsystem.setMotorSpeeds(0, 0);
+    }
+
+    // Komutun sürekli çalışmasını sağlar
+    @Override
+    public boolean isFinished() {
+        return false;
+    }
 }
